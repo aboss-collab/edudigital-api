@@ -3,15 +3,13 @@ from flask_cors import CORS  # Essencial para conectar com o Frontend
 import sqlite3
 
 app = Flask(__name__)
-CORS(app)  # Libera o acesso para o seu Frontend
+CORS(app)  
 
-# 🔹 Conexão com o banco (usando contexto 'with' para maior segurança)
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# 🔹 Criar tabela automaticamente ao iniciar
 def criar_tabela():
     with get_db_connection() as conn:
         conn.execute('''
@@ -25,17 +23,14 @@ def criar_tabela():
 
 criar_tabela()
 
-# 🔹 Rota inicial
 @app.route('/')
 def home():
     return jsonify({"status": "online", "mensagem": "API Flask com SQLite rodando com sucesso! 🚀"})
 
-# 🔹 Criar usuário (POST)
 @app.route('/usuarios', methods=['POST'])
 def criar_usuario():
     dados = request.get_json()
     
-    # Validação básica de entrada
     if not dados or 'nome' not in dados or 'email' not in dados:
         return jsonify({"erro": "Dados obrigatórios: nome e email"}), 400
 
@@ -50,7 +45,6 @@ def criar_usuario():
 
     return jsonify({"id": novo_id, "mensagem": "Usuário criado com sucesso"}), 201
 
-# 🔹 Listar todos os usuários (GET)
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
     with get_db_connection() as conn:
@@ -58,7 +52,6 @@ def listar_usuarios():
     
     return jsonify([dict(u) for u in usuarios])
 
-# 🔹 Buscar usuário por ID (GET)
 @app.route('/usuarios/<int:id>', methods=['GET'])
 def buscar_usuario(id):
     with get_db_connection() as conn:
@@ -69,7 +62,6 @@ def buscar_usuario(id):
 
     return jsonify(dict(usuario))
 
-# 🔹 Atualizar usuário (PUT)
 @app.route('/usuarios/<int:id>', methods=['PUT'])
 def atualizar_usuario(id):
     dados = request.get_json()
@@ -86,7 +78,6 @@ def atualizar_usuario(id):
 
     return jsonify({"mensagem": "Usuário atualizado com sucesso"})
 
-# 🔹 Deletar usuário (DELETE)
 @app.route('/usuarios/<int:id>', methods=['DELETE'])
 def deletar_usuario(id):
     with get_db_connection() as conn:
@@ -100,6 +91,6 @@ def deletar_usuario(id):
 
     return jsonify({"mensagem": "Usuário deletado com sucesso"})
 
-# 🔹 Rodar servidor
 if __name__ == '__main__':
     app.run(debug=True)
+
