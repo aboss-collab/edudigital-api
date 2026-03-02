@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro</title>
+</head>
+<body>
+
+<h2>Cadastrar Aluno</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="idade" placeholder="Idade">
+<input id="email" placeholder="Email">
+
+<button onclick="cadastrar()">Cadastrar</button>
+
+<script>
+function cadastrar() {
+    fetch("http://127.0.0.1:5000/alunos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            nome: nome.value,
+            idade: idade.value,
+            email: email.value
+        })
+    })
+}
+</script>
+
+</body>
+</html>

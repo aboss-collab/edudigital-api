@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduDigital</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>EduDigital – Alunos</h1>
+
+<ul id="lista"></ul>
+
+<script>
+fetch("http://127.0.0.1:5000/alunos")
+.then(res => res.json())
+.then(dados => {
+    let lista = document.getElementById("lista")
+
+    dados.forEach(aluno => {
+        lista.innerHTML += `<li>${aluno[1]} - ${aluno[2]} anos</li>`
+    })
+})
+</script>
+
+</body>
+</html>
