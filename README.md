@@ -17,3 +17,6 @@ Atividade Cesar School.
 - Luís Felipe Carneiro
 - Priscila Pontes
 - Raysa Queiroz
+
+[instruções para o projeto](./instrucoes-para-o-projeto.md)
+[fluxo escolhido](./fluxo-escolhido.md)
