@@ -18,6 +18,6 @@ Atividade Cesar School.
 - Priscila Pontes
 - Raysa Queiroz
 
-[instruções para o projeto](./instrucoes-para-o-projeto.md)
+[instruções para o projeto](./intrucoes-para-o-projeto.md)
 
 [fluxo escolhido](./fluxo-escolhido.md)
