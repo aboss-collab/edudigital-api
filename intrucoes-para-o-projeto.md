@@ -115,3 +115,14 @@ No endereço do thunder client, selecione o metodo de POST, e envie um dado qual
 >}
 
 Se ele receber o dado e apresentar status de codigo 200, o backend estará recebendo a comunicação em JSON.
+
+# 2 Frontend
+
+## 1 - Atentar aos arquivos estarem alocados nas pastas corretas
+
+Apenas o index.html deve estar na pasta base de frontend, sempre que for escrever um script deverá ser externo em um aquivo .js
+e adicionado a pasta de scripts.
+
+Os aquivos .css devem ser sempre adicionados a pasta de styles e os .html dentro dentro de pages.
+
+
