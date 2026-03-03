@@ -1,13 +1,19 @@
-# edudigital-api
-Líder técnico: Lucas Bonfim
-Líder de gestão: Ana Beatriz
-Grupo: Ana Beatriz de Oliveira
-Bruna Ferreira
-Caio Martins
-Glauberson
-Hilton Resende
-Lucas Bonfim
-Luís Felipe
-Priscila Pontes
-Raysa Queiroz
+# Edudigital
+Atividade Cesar School.
 
+
+### Líder Técnico:
+- Lucas Bonfim
+
+### Líder de Gestão:
+- Ana Beatriz de OLiveira
+
+### Integrantes:
+- Ana Beatriz
+- Bruna Tiburtino
+- Caio Oliveira
+- Hilton Resende
+- Lucas Bonfim
+- Luís Felipe Carneiro
+- Priscila Pontes
+- Raysa Queiroz
