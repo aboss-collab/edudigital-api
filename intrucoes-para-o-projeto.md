@@ -4,7 +4,7 @@
 
 ## 1 - Localize a pasta que você quer baixar o projeto e clone o repositório:
 
->git clone git@github.com:l-bonfim/projeto-avaliacao-1--introducao-a-computacao.git
+>git clone git@github.com:aboss-collab/edudigital-api.git
 
 ## 2 - Crie uma branch pessoal para as suas alterações:
 
