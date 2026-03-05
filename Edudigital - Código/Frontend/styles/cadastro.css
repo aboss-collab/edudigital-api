@@ -1,0 +1,32 @@
+/* Reutilizando a base do efeito de vidro */
+.login-card h2 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-link {
+    margin-top: 20px;
+    font-size: 0.85rem;
+}
+
+.footer-link a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.footer-link a:hover {
+    text-decoration: underline;
+}
+
+/* Ajuste para inputs ficarem um pouco mais compactos no cadastro */
+.input-group {
+    margin-bottom: 20px;
+}

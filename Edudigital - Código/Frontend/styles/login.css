@@ -1,0 +1,97 @@
+/* -- Tela de Login --*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    /* Gradiente de fundo igual ao da imagem */
+    background: blue;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.1); /* Cor branca com muita transparência */
+    backdrop-filter: blur(15px); /* O efeito de desfoque no fundo */
+    -webkit-backdrop-filter: blur(15px);
+    width: 90%;
+    max-width: 350px;
+    padding: 40px 30px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda fina para dar profundidade */
+    text-align: center;
+    color: white;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar img {
+    width: 60%;
+    opacity: 0.8;
+}
+
+/* Inputs Estilizados */
+.input-group {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 25px;
+    padding: 5px 0;
+}
+
+.input-group input {
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Opções e Botão */
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+}
+
+.options a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(to right, #4b0082, #6a5acd);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
