@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro</title>
+<link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
 
-<h2>Cadastrar Aluno</h2>
+<div class="app">
+<header>
+<h1>Cadastro</h1>
+</header>
 
-<input id="nome" placeholder="Nome">
-<input id="idade" placeholder="Idade">
-<input id="email" placeholder="Email">
+<main>
+<div class="card">
 
-<button onclick="cadastrar()">Cadastrar</button>
+<input type="text" id="nome" placeholder="Nome"><br><br>
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="tel" id="telefone" placeholder="Telefone"><br><br>
 
-<script>
-function cadastrar() {
-    fetch("http://127.0.0.1:5000/alunos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nome: nome.value,
-            idade: idade.value,
-            email: email.value
-        })
-    })
-}
-</script>
+<button class="btn-primary" onclick="cadastrarUsuario()">Cadastrar</button>
 
+<p id="mensagem"></p>
+
+<button class="btn-secondary" onclick="irInicio()">Voltar</button>
+
+</div>
+</main>
+</div>
+
+<script src="../js/app.js"></script>
 </body>
 </html>
