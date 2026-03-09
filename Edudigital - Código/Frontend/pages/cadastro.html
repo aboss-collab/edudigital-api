@@ -1,50 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Meu App</title>
-    <link rel="stylesheet" href="../styles/cadastro.css">
-    <link rel="stylesheet" href="../styles/global.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro</title>
+<link rel="stylesheet" href="../styles/style.css">
 </head>
-
 <body>
-    <div class="container">
-        <div class="login-card">
-            <h2>Criar Conta</h2>
-            <p class="subtitle">Preencha os dados abaixo</p>
 
-            <form id="cadastroForm">
-                <div class="input-group">
-                    <span class="icon">👤</span>
-                    <input type="text" id="nome" placeholder="Nome Completo" required>
-                </div>
+<div class="app">
+<header>
+<h1>Cadastro</h1>
+</header>
 
-                <div class="input-group">
-                    <span class="icon">✉️</span>
-                    <input type="email" id="email" placeholder="Seu melhor e-mail" required>
-                </div>
+<main>
+<div class="card">
 
-                <div class="input-group">
-                    <span class="icon">🔒</span>
-                    <input type="password" id="senha" placeholder="Crie uma senha" required>
-                </div>
+<input type="text" id="nome" placeholder="Nome"><br><br>
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="tel" id="telefone" placeholder="Telefone"><br><br>
 
-                <div class="input-group">
-                    <span class="icon">🛡️</span>
-                    <input type="password" id="confirmarSenha" placeholder="Confirme a senha" required>
-                </div>
+<button class="btn-primary" onclick="cadastrarUsuario()">Cadastrar</button>
 
-                <button type="submit" class="login-btn">CADASTRAR</button>
+<p id="mensagem"></p>
 
-                <div class="footer-link">
-                    <span>Já tem uma conta? <a href="index.html">Faça Login</a></span>
-                </div>
-            </form>
-        </div>
-    </div>
-    <script src="js/cadastro.js"></script>
+<button class="btn-secondary" onclick="irInicio()">Voltar</button>
+
+</div>
+</main>
+</div>
+
+<script src="../js/app.js"></script>
 </body>
-
 </html>

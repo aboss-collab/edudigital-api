@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EduDigital</title>
-    <link rel="stylesheet" href="./styles/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edu Digital</title>
+<link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
-<h1>EduDigital</h1>
+<div class="app">
+<header>
+<h1>Edu Digital</h1>
+</header>
 
-<ul id="lista"></ul>
+<main>
+<div class="card">
+<h2>Aprenda a pagar contas pelo celular</h2>
+<p>Para começar, faça seu cadastro.</p>
 
-<script>
-fetch("http://127.0.0.1:5000/alunos")
-.then(res => res.json())
-.then(dados => {
-    let lista = document.getElementById("lista")
+<button class="btn-primary" onclick="irCadastro()">Cadastrar</button>
+<button class="btn-secondary" onclick="irLogin()">Fazer login</button>
 
-    dados.forEach(aluno => {
-        lista.innerHTML += `<li>${aluno[1]} - ${aluno[2]} anos</li>`
-    })
-})
-</script>
+</div>
+</main>
+</div>
 
+<script src="js/app.js"></script>
 </body>
 </html>
