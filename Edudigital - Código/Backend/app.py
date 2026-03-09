@@ -114,7 +114,6 @@ def criar_usuario():
         "mensagem": "Usuário criado com sucesso"
     }), 201
 
-
 @app.route("/usuarios", methods=["GET"])
 def listar_usuarios():
 
@@ -349,6 +348,35 @@ def criar_exercicio():
         "id": novo_id,
         "pergunta": pergunta
     }), 201
+
+# ---------------------------------
+# LOGIN
+# ---------------------------------
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    dados = request.get_json()
+
+    if not dados or "email" not in dados:
+        return jsonify({"erro": "Email é obrigatório"}), 400
+
+    email = dados["email"]
+
+    with get_db_connection() as conn:
+
+        usuario = conn.execute(
+            "SELECT * FROM usuarios WHERE email = ?",
+            (email,)
+        ).fetchone()
+
+    if usuario is None:
+        return jsonify({"erro": "Usuário não encontrado"}), 404
+
+    return jsonify({
+        "mensagem": "Login realizado com sucesso",
+        "usuario": dict(usuario)
+    })
 
 
 # ---------------------------------
