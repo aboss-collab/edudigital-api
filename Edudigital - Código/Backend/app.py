@@ -76,7 +76,6 @@ criar_tabelas()
 def home():
 
     return jsonify({
-        "status": "online",
         "mensagem": "API Flask rodando 🚀"
     })
 
