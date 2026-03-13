@@ -29,7 +29,8 @@ def criar_tabelas():
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
-            email TEXT NOT NULL
+            email TEXT NOT NULL,
+            senha TEXT NOT NULL
         )
         """)
 
@@ -89,27 +90,41 @@ def criar_usuario():
 
     dados = request.get_json()
 
-    if not dados or "nome" not in dados or "email" not in dados:
-        return jsonify({"erro": "Nome e email são obrigatórios"}), 400
+    if not dados or "nome" not in dados or "email" not in dados or "senha" not in dados:
+        return jsonify({"erro": "Nome, email e senha são obrigatórios"}), 400
 
     nome = dados["nome"]
     email = dados["email"]
+    senha = dados["senha"]
+
+    if nome == "" or email == "" or senha == "":
+        return jsonify({"erro": "Nome, email e senha são obrigatórios"}), 400
+
+
+    with get_db_connection() as conn:
+
+        usuarios = conn.execute(
+            "SELECT * FROM usuarios"
+        ).fetchall()
+
+    users = [dict(u) for u in usuarios]
+
+    for i in range(len(users)):
+        if email == users[i]["email"]:
+            return jsonify({"erro": "Email já cadastrado"})
 
     with get_db_connection() as conn:
 
         cursor = conn.cursor()
 
         cursor.execute(
-            "INSERT INTO usuarios (nome, email) VALUES (?, ?)",
-            (nome, email)
+            "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)",
+            (nome, email, senha)
         )
 
         conn.commit()
 
-        novo_id = cursor.lastrowid
-
     return jsonify({
-        "id": novo_id,
         "mensagem": "Usuário criado com sucesso"
     }), 201
 
@@ -157,8 +172,8 @@ def atualizar_usuario(id):
             return jsonify({"erro": "Usuário não encontrado"}), 404
 
         conn.execute(
-            "UPDATE usuarios SET nome = ?, email = ? WHERE id = ?",
-            (dados["nome"], dados["email"], id)
+            "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?",
+            (dados["nome"], dados["email"], dados["senha"], id)
         )
 
         conn.commit()
@@ -357,8 +372,8 @@ def login():
 
     dados = request.get_json()
 
-    if not dados or "email" not in dados:
-        return jsonify({"erro": "Email é obrigatório"}), 400
+    if not dados or "email" not in dados or "senha" not in dados:
+        return jsonify({"erro": "Email e senha são obrigatórios"}), 400
 
     email = dados["email"]
 
@@ -371,10 +386,15 @@ def login():
 
     if usuario is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
+    
+    user = dict(usuario)
 
+    if dados["senha"] != user["senha"]:
+        return jsonify({"erro": "Email ou senha incorretos"})
+    
     return jsonify({
         "mensagem": "Login realizado com sucesso",
-        "usuario": dict(usuario)
+        "usuario": user["nome"]
     })
 
 
