@@ -374,9 +374,14 @@ def login():
 
     if not dados or "email" not in dados or "senha" not in dados:
         return jsonify({"erro": "Email e senha são obrigatórios"}), 400
-
+    
     email = dados["email"]
+    senha = dados["senha"]
 
+    if email == "" or senha == "":
+        return jsonify({"erro": "Email e senha são obrigatórios"}), 400
+
+    
     with get_db_connection() as conn:
 
         usuario = conn.execute(

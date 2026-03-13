@@ -16,6 +16,9 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
     if(fetchedData.mensagem !== undefined) {
         const errorMessage = document.getElementById("mensagem")
         errorMessage.innerHTML = fetchedData.mensagem
+    } else if (fetchedData.erro !== undefined) {
+        const errorMessage = document.getElementById("mensagem")
+        errorMessage.innerHTML = fetchedData.erro
     }
     
 })
