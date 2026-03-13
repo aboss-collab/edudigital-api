@@ -89,7 +89,7 @@ Fazendo isso você vai habilitar o uso, terminando de programar, desative-a:
 
 ## 2 - Sobre o desenvolvimento:
 
-Durante o desenvolvimento, todos os nossos códigos vão estar no caminho "backend/src/", lembre-se de criar os arquivos de código ".py" nele,
+Durante o desenvolvimento, todos os nossos códigos vão estar no caminho "Edudigital - Código/backend", lembre-se de criar os arquivos de código ".py" nele,
 será importante para criarmos as rotas de comunicacão com o frontend que estão no arquivo "app.py" presente no mesmo caminho.
 
 Não delete arquivos criado por outros colegas, e se for altera-los, lembre-se de informar e deixar o código anterior comentado para backup.
@@ -106,15 +106,10 @@ Se você tiver iniciado o backend, o endereço dele será o:
 
 Para testar um exemplo de funcionamento, voce pode utilizar o que já foi programado em:
 
->http://localhost:5000/register
+>http://localhost:5000/
 
-No endereço do thunder client, selecione o metodo de POST, e envie um dado qualquer em JSON:
-
->{
->    "dado de teste": "teste"
->}
-
-Se ele receber o dado e apresentar status de codigo 200, o backend estará recebendo a comunicação em JSON.
+No endereço do thunder client, selecione o metodo de GET, envie.
+Se ele apresentar status de codigo 200, o backend estará ativo e terá cominucação.
 
 # 2 Frontend
 
