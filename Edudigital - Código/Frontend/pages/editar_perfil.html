@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Editar Perfil</title>
+
+    <link rel="stylesheet" href="../styles/style.css">
+
+</head>
+
+<body>
+
+    <div class="app">
+
+        <header>
+            <h1>Editar Perfil</h1>
+        </header>
+
+        <main>
+
+            <div class="card">
+
+                <form id="editar-form">
+
+                    <input type="text" name="nome" placeholder="Nome completo"><br><br>
+
+                    <select name="genero"
+                        style="width:90%;height:45px;border-radius:10px;border:1px solid #ccc;font-size:16px;">
+                        <option value="">Gênero</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Outro">Outro</option>
+                    </select><br><br>
+
+                    <input type="text" name="cpf" placeholder="CPF"><br><br>
+
+                    <input type="date" name="nascimento"><br><br>
+
+                    <button class="btn-primary" type="submit">
+                        Salvar Perfil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="../scripts/editar_perfil.js"></script>
+
+</body>
+
+</html>

@@ -16,21 +16,48 @@
         </header>
 
         <main>
-            <div class="card">
+            <div class="card" id="cadastro-card">
 
                 <form id="reg-form">
+
                     <input type="text" id="nome" name="nome" placeholder="Nome"><br><br>
+
                     <input type="email" id="email" name="email" placeholder="Email"><br><br>
+
                     <input type="password" id="senha" name="senha" placeholder="Senha"><br><br>
 
-                    <button class="btn-primary" type="submit">Cadastrar</button>
+                    <button class="btn-primary" type="submit">
+                        Cadastrar
+                    </button>
+
                 </form>
-               
+
                 <p id="mensagem"></p>
 
-                <button class="btn-secondary" onclick="irInicio()">Voltar</button>
+            </div>
+
+
+            <div class="card" id="perfil-card" style="display:none;">
+
+                <h2>Dados do Usuário</h2>
+
+                <p><strong>Nome:</strong></p>
+                <p id="perfil-nome"></p>
+
+                <p><strong>Email:</strong></p>
+                <p id="perfil-email"></p>
+
+                <p><strong>Senha:</strong></p>
+                <p id="perfil-senha"></p>
+
+                <br>
+
+                <button class="btn-primary" onclick="editarPerfil()">
+                    Editar Perfil
+                </button>
 
             </div>
+
         </main>
     </div>
 
