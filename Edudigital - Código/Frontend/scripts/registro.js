@@ -1,9 +1,9 @@
 document.getElementById("reg-form").addEventListener("submit", async (event) => {
 
-    // impede recarregar a página
+
     event.preventDefault();
 
-    // pegar dados do formulário
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
@@ -21,28 +21,28 @@ document.getElementById("reg-form").addEventListener("submit", async (event) => 
 
         const mensagem = document.getElementById("mensagem");
 
-        // se houver erro
+
         if (fetchedData.erro !== undefined) {
             mensagem.innerHTML = fetchedData.erro;
             return;
         }
 
-        // se cadastro for sucesso
+
         if (fetchedData.mensagem !== undefined) {
 
             mensagem.innerHTML = fetchedData.mensagem;
 
-            // preencher dados no perfil
+
             document.getElementById("perfil-nome").innerHTML = data.nome;
             document.getElementById("perfil-email").innerHTML = data.email;
 
-            // mostrar senha mascarada
+
             document.getElementById("perfil-senha").innerHTML = "********";
 
-            // esconder card de cadastro
+
             document.getElementById("cadastro-card").style.display = "none";
 
-            // mostrar card de perfil
+
             document.getElementById("perfil-card").style.display = "block";
         }
 
