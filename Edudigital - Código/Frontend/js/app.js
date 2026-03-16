@@ -1,5 +1,5 @@
 function irCadastro() {
-    window.location.href = "pages/cadastroperfil.html"
+    window.location.href = "pages/cadastro.html"
 }
 /* Function irInicio só funciona para voltar da Pagina Cadastro e Login */
 function irInicio() {
@@ -24,6 +24,19 @@ function irPagamentos() {
 
 function irPerguntas() {
     window.location.href = "perguntas.html"
+}
+
+function irEditarPerfil() {
+    window.location.href = "editar_perfil.html"
+}
+
+function irPerfil() {
+    window.location.href = "perfil.html"
+}
+
+function sair() {
+    localStorage.clear()
+    window.location.href = "login.html"
 }
 
 function abrirAula(tipo) {

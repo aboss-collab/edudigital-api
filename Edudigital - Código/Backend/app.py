@@ -146,9 +146,9 @@ def buscar_usuario(id):
     with get_db_connection() as conn:
 
         usuario = conn.execute(
-            "SELECT * FROM usuarios WHERE id = ?",
-            (id,)
-        ).fetchone()
+                    "SELECT * FROM usuarios WHERE id = ?",
+                    (id,)
+                ).fetchone()
 
     if usuario is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
@@ -164,12 +164,25 @@ def atualizar_usuario(id):
     with get_db_connection() as conn:
 
         usuario = conn.execute(
-            "SELECT id FROM usuarios WHERE id = ?",
+            "SELECT * FROM usuarios WHERE id = ?",
             (id,)
         ).fetchone()
 
         if not usuario:
             return jsonify({"erro": "Usuário não encontrado"}), 404
+        
+        user = dict(usuario)
+        print(user)
+        
+        usuarios = conn.execute(
+            "SELECT * FROM usuarios"
+            ).fetchall()
+
+        users = [dict(u) for u in usuarios]
+
+        for i in range(len(users)):
+            if dados["email"] == users[i]["email"] and users[i]["id"] != id:
+                return jsonify({"erro": "Email já cadastrado"})
 
         conn.execute(
             "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?",
@@ -398,6 +411,7 @@ def login():
         return jsonify({"erro": "Email ou senha incorretos"})
     
     return jsonify({
+        "id": user["id"],
         "mensagem": "Login realizado com sucesso",
         "usuario": user["nome"]
     })
