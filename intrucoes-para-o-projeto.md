@@ -65,6 +65,10 @@ a partir de agora as instruções serão separadas de acordo com a área a ser d
 Dentro do nosso backend você precisará criar o ambiente virtual ".venv", onde vai ser necessário instalar as bibliotecas e depências que iremos usar,
 para realizar a comunicacao com o frontend (para testar a comunitcacao, será usada a extensão thunder client)
 
+Verifique se sua linha de comando está indicando que você está na pasta "backend" ou na "edudigital-api", caso já esteja na pasta backend, você pode pular a proxima etapa:
+
+>cd ./Edudigital\ -\ Código/backend
+
 Antes de tentar criar o ambiente virtual, verifique se já existe uma pasta chamada ".venv" na pasta do backend, e caso exista delete-a.
 
 Para criar o ambiente virtual:
