@@ -5,13 +5,14 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 
+DATABASE = "database.db"
 
 # ---------------------------------
-# CONEXÃO COM O BANCO
+# CONEXÃO COM BANCO
 # ---------------------------------
 
 def get_db_connection():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -24,17 +25,15 @@ def criar_tabelas():
 
     with get_db_connection() as conn:
 
-        # tabela usuarios
         conn.execute("""
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
-            email TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
             senha TEXT NOT NULL
         )
         """)
 
-        # tabela licoes
         conn.execute("""
         CREATE TABLE IF NOT EXISTS licoes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +41,6 @@ def criar_tabelas():
         )
         """)
 
-        # tabela exercicios
         conn.execute("""
         CREATE TABLE IF NOT EXISTS exercicios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,7 +51,6 @@ def criar_tabelas():
         )
         """)
 
-        # tabela progresso
         conn.execute("""
         CREATE TABLE IF NOT EXISTS progresso (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,19 +67,16 @@ criar_tabelas()
 
 
 # ---------------------------------
-# ROTA INICIAL
+# ROTA TESTE
 # ---------------------------------
 
 @app.route("/")
 def home():
-
-    return jsonify({
-        "mensagem": "API Flask rodando 🚀"
-    })
+    return jsonify({"mensagem": "API Flask rodando 🚀"})
 
 
 # ---------------------------------
-# USUÁRIOS
+# CRIAR USUÁRIO
 # ---------------------------------
 
 @app.route("/usuarios", methods=["POST"])
@@ -90,30 +84,25 @@ def criar_usuario():
 
     dados = request.get_json()
 
-    if not dados or "nome" not in dados or "email" not in dados or "senha" not in dados:
+    if not dados:
+        return jsonify({"erro": "Dados não enviados"}), 400
+
+    nome = dados.get("nome")
+    email = dados.get("email")
+    senha = dados.get("senha")
+
+    if not nome or not email or not senha:
         return jsonify({"erro": "Nome, email e senha são obrigatórios"}), 400
-
-    nome = dados["nome"]
-    email = dados["email"]
-    senha = dados["senha"]
-
-    if nome == "" or email == "" or senha == "":
-        return jsonify({"erro": "Nome, email e senha são obrigatórios"}), 400
-
 
     with get_db_connection() as conn:
 
-        usuarios = conn.execute(
-            "SELECT * FROM usuarios"
-        ).fetchall()
+        usuario_existente = conn.execute(
+            "SELECT * FROM usuarios WHERE email = ?",
+            (email,)
+        ).fetchone()
 
-    users = [dict(u) for u in usuarios]
-
-    for i in range(len(users)):
-        if email == users[i]["email"]:
-            return jsonify({"erro": "Email já cadastrado"})
-
-    with get_db_connection() as conn:
+        if usuario_existente:
+            return jsonify({"erro": "Email já cadastrado"}), 400
 
         cursor = conn.cursor()
 
@@ -124,9 +113,12 @@ def criar_usuario():
 
         conn.commit()
 
-    return jsonify({
-        "mensagem": "Usuário criado com sucesso"
-    }), 201
+    return jsonify({"mensagem": "Usuário criado com sucesso"}), 201
+
+
+# ---------------------------------
+# LISTAR USUÁRIOS
+# ---------------------------------
 
 @app.route("/usuarios", methods=["GET"])
 def listar_usuarios():
@@ -134,11 +126,15 @@ def listar_usuarios():
     with get_db_connection() as conn:
 
         usuarios = conn.execute(
-            "SELECT * FROM usuarios"
+            "SELECT id, nome, email FROM usuarios"
         ).fetchall()
 
     return jsonify([dict(u) for u in usuarios])
 
+
+# ---------------------------------
+# BUSCAR USUÁRIO
+# ---------------------------------
 
 @app.route("/usuarios/<int:id>", methods=["GET"])
 def buscar_usuario(id):
@@ -146,9 +142,9 @@ def buscar_usuario(id):
     with get_db_connection() as conn:
 
         usuario = conn.execute(
-                    "SELECT * FROM usuarios WHERE id = ?",
-                    (id,)
-                ).fetchone()
+            "SELECT id, nome, email FROM usuarios WHERE id = ?",
+            (id,)
+        ).fetchone()
 
     if usuario is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
@@ -156,10 +152,21 @@ def buscar_usuario(id):
     return jsonify(dict(usuario))
 
 
+# ---------------------------------
+# ATUALIZAR USUÁRIO
+# ---------------------------------
+
 @app.route("/usuarios/<int:id>", methods=["PUT"])
 def atualizar_usuario(id):
 
     dados = request.get_json()
+
+    nome = dados.get("nome")
+    email = dados.get("email")
+    senha = dados.get("senha")
+
+    if not nome or not email or not senha:
+        return jsonify({"erro": "Dados incompletos"}), 400
 
     with get_db_connection() as conn:
 
@@ -170,23 +177,18 @@ def atualizar_usuario(id):
 
         if not usuario:
             return jsonify({"erro": "Usuário não encontrado"}), 404
-        
-        user = dict(usuario)
-        print(user)
-        
-        usuarios = conn.execute(
-            "SELECT * FROM usuarios"
-            ).fetchall()
 
-        users = [dict(u) for u in usuarios]
+        email_existente = conn.execute(
+            "SELECT * FROM usuarios WHERE email = ? AND id != ?",
+            (email, id)
+        ).fetchone()
 
-        for i in range(len(users)):
-            if dados["email"] == users[i]["email"] and users[i]["id"] != id:
-                return jsonify({"erro": "Email já cadastrado"})
+        if email_existente:
+            return jsonify({"erro": "Email já cadastrado"}), 400
 
         conn.execute(
             "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?",
-            (dados["nome"], dados["email"], dados["senha"], id)
+            (nome, email, senha, id)
         )
 
         conn.commit()
@@ -194,13 +196,17 @@ def atualizar_usuario(id):
     return jsonify({"mensagem": "Usuário atualizado"})
 
 
+# ---------------------------------
+# DELETAR USUÁRIO
+# ---------------------------------
+
 @app.route("/usuarios/<int:id>", methods=["DELETE"])
 def deletar_usuario(id):
 
     with get_db_connection() as conn:
 
         usuario = conn.execute(
-            "SELECT id FROM usuarios WHERE id = ?",
+            "SELECT * FROM usuarios WHERE id = ?",
             (id,)
         ).fetchone()
 
@@ -218,165 +224,6 @@ def deletar_usuario(id):
 
 
 # ---------------------------------
-# LIÇÕES
-# ---------------------------------
-
-@app.route("/licoes", methods=["GET"])
-def listar_licoes():
-
-    with get_db_connection() as conn:
-
-        licoes = conn.execute(
-            "SELECT * FROM licoes"
-        ).fetchall()
-
-    return jsonify([dict(l) for l in licoes])
-
-
-@app.route("/licoes/<int:id>", methods=["GET"])
-def exercicios_da_licao(id):
-
-    with get_db_connection() as conn:
-
-        exercicios = conn.execute(
-            "SELECT * FROM exercicios WHERE licao_id = ?",
-            (id,)
-        ).fetchall()
-
-    return jsonify([dict(e) for e in exercicios])
-
-
-# ---------------------------------
-# RESPONDER EXERCÍCIO
-# ---------------------------------
-
-@app.route("/responder", methods=["POST"])
-def responder():
-
-    dados = request.get_json()
-
-    exercicio_id = dados["exercicio_id"]
-    resposta_usuario = dados["resposta"]
-    usuario_id = dados["usuario_id"]
-
-    with get_db_connection() as conn:
-
-        exercicio = conn.execute(
-            "SELECT resposta FROM exercicios WHERE id = ?",
-            (exercicio_id,)
-        ).fetchone()
-
-        if not exercicio:
-            return jsonify({"erro": "Exercício não encontrado"}), 404
-
-        resposta_correta = exercicio["resposta"]
-
-        if resposta_usuario == resposta_correta:
-            pontuacao = 10
-            correto = True
-        else:
-            pontuacao = 0
-            correto = False
-
-        conn.execute(
-            "INSERT INTO progresso (usuario_id, pontuacao) VALUES (?, ?)",
-            (usuario_id, pontuacao)
-        )
-
-        conn.commit()
-
-    return jsonify({
-        "correto": correto,
-        "pontuacao": pontuacao
-    })
-
-
-# ---------------------------------
-# PROGRESSO DO USUÁRIO
-# ---------------------------------
-
-@app.route("/progresso/<int:usuario_id>", methods=["GET"])
-def progresso(usuario_id):
-
-    with get_db_connection() as conn:
-
-        registros = conn.execute(
-            "SELECT pontuacao FROM progresso WHERE usuario_id = ?",
-            (usuario_id,)
-        ).fetchall()
-
-    total = 0
-
-    for r in registros:
-        total += r["pontuacao"]
-
-    return jsonify({
-        "pontuacao_total": total
-    })
-
-
-# ---------------------------------
-# CRIAR LIÇÃO
-# ---------------------------------
-
-@app.route("/licoes", methods=["POST"])
-def criar_licao():
-
-    dados = request.get_json()
-
-    titulo = dados["titulo"]
-
-    with get_db_connection() as conn:
-
-        cursor = conn.cursor()
-
-        cursor.execute(
-            "INSERT INTO licoes (titulo) VALUES (?)",
-            (titulo,)
-        )
-
-        conn.commit()
-
-        novo_id = cursor.lastrowid
-
-    return jsonify({
-        "id": novo_id,
-        "titulo": titulo
-    }), 201
-
-
-# ---------------------------------
-# CRIAR EXERCÍCIO
-# ---------------------------------
-
-@app.route("/exercicios", methods=["POST"])
-def criar_exercicio():
-
-    dados = request.get_json()
-
-    pergunta = dados["pergunta"]
-    resposta = dados["resposta"]
-    licao_id = dados["licao_id"]
-
-    with get_db_connection() as conn:
-
-        cursor = conn.cursor()
-
-        cursor.execute(
-            "INSERT INTO exercicios (pergunta, resposta, licao_id) VALUES (?, ?, ?)",
-            (pergunta, resposta, licao_id)
-        )
-
-        conn.commit()
-
-        novo_id = cursor.lastrowid
-
-    return jsonify({
-        "id": novo_id,
-        "pergunta": pergunta
-    }), 201
-
-# ---------------------------------
 # LOGIN
 # ---------------------------------
 
@@ -385,16 +232,12 @@ def login():
 
     dados = request.get_json()
 
-    if not dados or "email" not in dados or "senha" not in dados:
-        return jsonify({"erro": "Email e senha são obrigatórios"}), 400
-    
-    email = dados["email"]
-    senha = dados["senha"]
+    email = dados.get("email")
+    senha = dados.get("senha")
 
-    if email == "" or senha == "":
+    if not email or not senha:
         return jsonify({"erro": "Email e senha são obrigatórios"}), 400
 
-    
     with get_db_connection() as conn:
 
         usuario = conn.execute(
@@ -404,16 +247,14 @@ def login():
 
     if usuario is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
-    
-    user = dict(usuario)
 
-    if dados["senha"] != user["senha"]:
-        return jsonify({"erro": "Email ou senha incorretos"})
-    
+    if senha != usuario["senha"]:
+        return jsonify({"erro": "Senha incorreta"}), 401
+
     return jsonify({
-        "id": user["id"],
-        "mensagem": "Login realizado com sucesso",
-        "usuario": user["nome"]
+        "id": usuario["id"],
+        "usuario": usuario["nome"],
+        "mensagem": "Login realizado com sucesso"
     })
 
 
@@ -422,4 +263,4 @@ def login():
 # ---------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
