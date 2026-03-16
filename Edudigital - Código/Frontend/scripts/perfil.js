@@ -28,6 +28,7 @@ document.getElementById("deletar").addEventListener("click", async (event) => {
                 errorMessage.innerHTML = fetchedData.erro
 
             } else {
+                localStorage.clear()
                 document.getElementById("mensagem").innerHTML = fetchedData.mensagem
                 window.location.href = "login.html"
                 alert("Conta excliuída com sucesso!")
