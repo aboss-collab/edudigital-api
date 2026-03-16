@@ -26,6 +26,19 @@ function irPerguntas() {
     window.location.href = "perguntas.html"
 }
 
+function irEditarPerfil() {
+    window.location.href = "editar_perfil.html"
+}
+
+function irPerfil() {
+    window.location.href = "perfil.html"
+}
+
+function sair() {
+    localStorage.clear()
+    window.location.href = "login.html"
+}
+
 function abrirAula(tipo) {
     localStorage.setItem("tipoAula", tipo)
     window.location.href = "aula.html"

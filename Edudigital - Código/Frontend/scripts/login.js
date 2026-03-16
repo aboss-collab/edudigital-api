@@ -13,12 +13,12 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
     const fetchedData = await response.json()
     console.log(fetchedData.mensagem)
     
-    if(fetchedData.mensagem !== undefined) {
-        const errorMessage = document.getElementById("mensagem")
-        errorMessage.innerHTML = fetchedData.mensagem
-    } else if (fetchedData.erro !== undefined) {
+    if (fetchedData.erro !== undefined) {
         const errorMessage = document.getElementById("mensagem")
         errorMessage.innerHTML = fetchedData.erro
+    } else {
+        console.log(fetchedData)
+        localStorage.setItem("id", fetchedData.id)
+        window.location.href = "perfil.html";
     }
-    
 })
