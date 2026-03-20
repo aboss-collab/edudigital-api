@@ -172,7 +172,6 @@ def atualizar_usuario(id):
             return jsonify({"erro": "Usuário não encontrado"}), 404
         
         user = dict(usuario)
-        print(user)
         
         usuarios = conn.execute(
             "SELECT * FROM usuarios"
