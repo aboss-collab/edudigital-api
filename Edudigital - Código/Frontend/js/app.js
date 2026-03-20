@@ -1,5 +1,5 @@
 function irCadastro() {
-    window.location.href = "pages/cadastroperfil.html"
+    window.location.href = "pages/cadastro.html"
 }
 /* Function irInicio só funciona para voltar da Pagina Cadastro e Login */
 function irInicio() {

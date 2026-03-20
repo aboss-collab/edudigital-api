@@ -177,6 +177,12 @@ def atualizar_usuario(id):
 
         if not usuario:
             return jsonify({"erro": "Usuário não encontrado"}), 404
+        
+        user = dict(usuario)
+        
+        usuarios = conn.execute(
+            "SELECT * FROM usuarios"
+            ).fetchall()
 
         email_existente = conn.execute(
             "SELECT * FROM usuarios WHERE email = ? AND id != ?",
